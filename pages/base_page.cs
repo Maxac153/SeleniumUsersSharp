@@ -1,6 +1,11 @@
 using OpenQA.Selenium;
 
 public class BasePage {
+    // Войти
+    public static void IntoAuthorization(IWebDriver driver) {
+        driver.FindElement(BaseLocators.ButtonLogin).Click();
+    }
+
     // Войти в профиль пользователя
     public static void IntoUserAccount(IWebDriver driver) {
         driver.FindElement(BaseLocators.ButtonIcon).Click();

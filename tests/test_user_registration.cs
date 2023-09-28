@@ -22,9 +22,10 @@ public class TestUserRegistration
         String email = "verygood@gmail.com";
         String password = "123";
 
-        AutAndRegPage.IntoUserAccount(driver);
+        AutAndRegPage.IntoAuthorization(driver);
         AutAndRegPage.Registrarion(driver, name, email, password);
 
+        
 
         driver.Close();
         driver.Quit();
