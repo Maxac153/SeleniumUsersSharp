@@ -6,17 +6,24 @@ namespace SeleniumUsersSharp;
 
 public class TestUserRegistration
 {
-    [Test]
-    public void TestUserReg()
-    {
-        IWebDriver driver = new ChromeDriver();
+    private IWebDriver driver;
+
+    [SetUp]
+    public void SetUp() {
+        driver = new ChromeDriver();
         driver.Manage().Window.Maximize();
         driver.Navigate().GoToUrl("http://users.bugred.ru/");
+    }
 
-        String name = "Tur123";
-        String email = "verygood@gmail.com";
-        String password = "123";
-        String expectedResult = "http://users.bugred.ru/";
+    [TearDown]
+    public void TearDown() {
+        driver.Close();
+        driver.Quit();
+    }
+
+    [Test]
+    [TestCase("Tur123", "verygood@gmail.com", "123", "http://users.bugred.ru/")]
+    public void TestUserReg(String name, String email, String password, String expectedResult) {
 
         AutAndRegPage.IntoAuthorization(driver);
         AutAndRegPage.Registrarion(driver, name, email, password);
@@ -30,9 +37,6 @@ public class TestUserRegistration
             AutAndRegPage.LogoutAccount(driver);
         }
 
-                
-        driver.Close();
-        driver.Quit();
         Assert.AreEqual(0, String.CompareOrdinal(result, expectedResult));
     }
 }
