@@ -6,11 +6,6 @@ namespace SeleniumUsersSharp;
 
 public class TestAddAvatar
 {
-    [SetUp]
-    public void Setup()
-    {
-    }
-
     [Test]
     public void TestAddAva()
     {
@@ -18,16 +13,30 @@ public class TestAddAvatar
         driver.Manage().Window.Maximize();
         driver.Navigate().GoToUrl("http://users.bugred.ru/");
 
-        driver.FindElement(By.XPath("//span[text()='Войти']")).Click();
+        String email = "manager@mail.ru";
+        String password = "1";
+        String img = "/home/turgor/VisualStudioCode/SeleniumUsersSharp/resources/img_more_150Kb.png";
+        Boolean expectedResult = true;
 
-        driver.FindElement(By.XPath("//input[@required=''][@name='name']")).SendKeys("Tur123");
-        driver.FindElement(By.XPath("//input[@required=''][@name='email']")).SendKeys("verygood@gmail.com");
-        driver.FindElement(By.XPath("//input[@name='password'][@required='']")).SendKeys("123");
+        AutAndRegPage.IntoAuthorization(driver);
+        AutAndRegPage.Authorization(driver, email, password);
+        AutAndRegPage.IntoUserAccount(driver);
+        String result = ProfilePage.ReplaceAvatar(driver, img);
 
-        driver.FindElement(By.XPath("//input[@value='Зарегистрироваться']")).Click();
+        string[] splitString = result.Split('/');
+        string lastElement = splitString.Last();
+        int myInt;
+        bool digital;
+
+        if (int.TryParse(lastElement, out myInt)) {
+            digital = true;
+        } else {
+            digital = false;
+        }
 
         driver.Close();
         driver.Quit();
-        Assert.Pass();
+
+        Assert.AreEqual(expectedResult, digital);
     }
 }

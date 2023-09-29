@@ -6,11 +6,6 @@ namespace SeleniumUsersSharp;
 
 public class TestUserRegistration
 {
-    [SetUp]
-    public void Setup()
-    {
-    }
-
     [Test]
     public void TestUserReg()
     {
@@ -21,14 +16,23 @@ public class TestUserRegistration
         String name = "Tur123";
         String email = "verygood@gmail.com";
         String password = "123";
+        String expectedResult = "http://users.bugred.ru/";
 
         AutAndRegPage.IntoAuthorization(driver);
         AutAndRegPage.Registrarion(driver, name, email, password);
+        String result = driver.Url;
 
-        
+        if (result.Equals("http://users.bugred.ru/")) {
+            AutAndRegPage.LogoutAccount(driver);
+            AutAndRegPage.IntoAuthorization(driver);
+            AutAndRegPage.Authorization(driver, "manager@mail.ru", "1");
+            AutAndRegPage.DeleteUserAccount(driver, name);
+            AutAndRegPage.LogoutAccount(driver);
+        }
 
+                
         driver.Close();
         driver.Quit();
-        Assert.Pass();
+        Assert.AreEqual(0, String.CompareOrdinal(result, expectedResult));
     }
 }
