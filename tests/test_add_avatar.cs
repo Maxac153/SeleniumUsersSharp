@@ -1,10 +1,12 @@
 using NUnit.Framework;
+using NUnit.Allure.Core;
 using System.IO;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
 namespace SeleniumUsersSharp;
 
+[AllureNUnit]
 public class TestAddAvatar
 {
     private IWebDriver driver;

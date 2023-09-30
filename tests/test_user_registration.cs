@@ -1,9 +1,12 @@
 using NUnit.Framework;
+using NUnit.Allure.Core;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using NUnit.Allure.Attributes;
 
 namespace SeleniumUsersSharp;
 
+[AllureNUnit]
 public class TestUserRegistration
 {
     private IWebDriver driver;
@@ -23,8 +26,12 @@ public class TestUserRegistration
 
     [Test]
     [TestCase("Tur123", "verygood@gmail.com", "123", "http://users.bugred.ru/")]
+    [TestCase("Tur123", "verygoodgmail.com", "123", "http://users.bugred.ru/user/register/index.html")]
+    [TestCase("Tur123", "verygood@gmailcom", "123", "http://users.bugred.ru/user/register/index.html")]
+    [TestCase("", "verygood@gmail.com", "123", "http://users.bugred.ru/user/login/index.html")]
+    [TestCase("Tur123", "", "123", "http://users.bugred.ru/user/login/index.html")]
+    [TestCase("Tur123", "verygood@gmail.com", "", "http://users.bugred.ru/user/login/index.html")]
     public void TestUserReg(String name, String email, String password, String expectedResult) {
-
         AutAndRegPage.IntoAuthorization(driver);
         AutAndRegPage.Registrarion(driver, name, email, password);
         String result = driver.Url;
