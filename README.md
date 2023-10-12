@@ -3,7 +3,6 @@
 ## Технологии
 
 - C#
-- MSTest
 - XUnit
 - Allure
 - Selenium
